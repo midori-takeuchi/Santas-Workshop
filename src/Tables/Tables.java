@@ -2,7 +2,6 @@ package Tables;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -68,6 +67,7 @@ public class Tables {
 		
 		String materials = "create table materials" +
 				"(MaterialID int not null, " +
+				" InventoryQuantity int, " +
 				" InventoryLimit int, " +
 				" primary key (MaterialID))";
 		
@@ -83,6 +83,7 @@ public class Tables {
 				" ElfID int, " +
 				" StartDate date, " +
 				" EndDate date, " +
+				" DueDate date, " +
 				" primary key (TaskID), " +
 				" foreign key(ElfID) references elves ON DELETE CASCADE)";
 		
@@ -151,11 +152,11 @@ public class Tables {
 		String insertElves4 = "insert into elves values (31892187, 'D', 'D')";
 		String insertElves5 = "insert into elves values (60215827, 'E', 'E')";
 		
-		String insertMaterials1 = "insert into materials values (33536974, 10)";
-		String insertMaterials2 = "insert into materials values (22142153, 15)";
-		String insertMaterials3 = "insert into materials values (43246980, 8)";
-		String insertMaterials4 = "insert into materials values (10742159, 5)";
-		String insertMaterials5 = "insert into materials values (50012453, 20)";
+		String insertMaterials1 = "insert into materials values (33536974, 1, 10)";
+		String insertMaterials2 = "insert into materials values (22142153, 2, 15)";
+		String insertMaterials3 = "insert into materials values (43246980, 7, 8)";
+		String insertMaterials4 = "insert into materials values (10742159, 15, 16)";
+		String insertMaterials5 = "insert into materials values (50012453, 19, 20)";
 		
 		String insertTools1 = "insert into tools values (80038289)";
 		String insertTools2 = "insert into tools values (11284928)";
@@ -168,11 +169,11 @@ public class Tables {
 		String insertTools9 = "insert into tools values (78547653)";
 		String insertTools10 = "insert into tools values (15326875)";
 		
-		String insertTasksAssigned1 = "insert into tasks_assigned values (73926847, 88391084, '29-JUN-16', '29-JUL-16')";
-		String insertTasksAssigned2 = "insert into tasks_assigned values (11324124, 12204125, '01-FEB-16', '14-FEB-16')";
-		String insertTasksAssigned3 = "insert into tasks_assigned values (31223535, 20014553, '21-MAR-16', '10-APR-16')";
-		String insertTasksAssigned4 = "insert into tasks_assigned values (88798631, 31892187, '13-AUG-16', '30-AUG-16')";
-		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16')";
+		String insertTasksAssigned1 = "insert into tasks_assigned values (73926847, 88391084, '29-JUN-16', '29-JUL-16', '30-JUL-16')";
+		String insertTasksAssigned2 = "insert into tasks_assigned values (11324124, 12204125, '01-MAY-16', '20-JUL-16', '30-MAY-16')";
+		String insertTasksAssigned3 = "insert into tasks_assigned values (31223535, 20014553, '21-MAR-16', '10-APR-16', '12-APR-16')";
+		String insertTasksAssigned4 = "insert into tasks_assigned values (88798631, 31892187, '13-AUG-16', '30-AUG-16', '22-AUG-16')";
+		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16', '28-JAN-16')";
 		
 		String insertAssigned1 = "insert into assigned values (37658724, 83927847, 3)";
 		String insertAssigned2 = "insert into assigned values (97482985, 73875937, 1)";
