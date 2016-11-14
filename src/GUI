@@ -1,31 +1,44 @@
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+package Tables;
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.SQLException;
+
+import javax.swing.BoxLayout;
+
+import Elves.Elves;
 
 
 public class GUI extends JPanel {
     private boolean DEBUG = false;
  
     public GUI() {
-        super(new GridLayout(1,0));
- 
+    	super(new GridLayout(1,0));
+    	
+setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+   
+        Button cbutton=new Button("Toggle Children");
+    	Button ebutton=new Button("Toggle Elves"); 
+        Button sbutton=new Button("Toggle Santa");
+        
+       
         String[] columnNames = {"Child ID",
-                                "Toy ID",
-                                "Quantity"};
+                                "Name",
+                                "Address",
+                                "NaughtyNice"};
  
         Object[][] data = {
-        {892305, 593494, 6},
-        {39205, 903958, 3}
-        };
- 
+        {892305, "Jordan", "689 Poke Nay Gor Chow Street, Richmond, BC", "Nice"},
+        {346353, "Katie", "310 Somewhere in UBC Street, Vancouver, BC", "Nice"},
+        {392053, "Midori", "304 Somewhere along the highway Street, Burnaby, BC", "Nice"},
+        {392053, "John", "430 CPSC Ugrad TA Street, Surrey, BC", "Nice"}};
+        
         final JTable table = new JTable(data, columnNames);
         table.setPreferredScrollableViewportSize(new Dimension(500, 70));
         table.setFillsViewportHeight(true);
+ 
+       
  
         if (DEBUG) {
             table.addMouseListener(new MouseAdapter() {
@@ -34,13 +47,41 @@ public class GUI extends JPanel {
                 }
             });
         }
- 
+        
         //Create the scroll pane and add the table to it.
         JScrollPane scrollPane = new JScrollPane(table);
  
         //Add the scroll pane to this panel.
         add(scrollPane);
+        
+        add(cbutton);
+        add(ebutton); 
+        add(sbutton);
+
+        
+        ebutton.addActionListener(new ActionListener() { 
+    	    public void actionPerformed(ActionEvent e) { 
+    	    	System.out.println("c executed");
+    	    }
+
+    	});
+    
+        cbutton.addActionListener(new ActionListener() { 
+    	    public void actionPerformed(ActionEvent e) { 
+    	    	System.out.println("e executed");
+    	    }
+
+    	});
+        
+        sbutton.addActionListener(new ActionListener() { 
+    	    public void actionPerformed(ActionEvent e) { 
+    	    	System.out.println("s executed");
+    	    }
+
+    	});
+
     }
+   
  
     private void printDebugData(JTable table) {
         int numRows = table.getRowCount();
@@ -65,7 +106,8 @@ public class GUI extends JPanel {
      */
     private static void createAndShowGUI() {
         //Create and set up the window.
-        JFrame frame = new JFrame("Children");
+        JFrame frame = new JFrame("SimpleTableDemo");
+        frame.setSize(550, 270);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         //Create and set up the content pane.
