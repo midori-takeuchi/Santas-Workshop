@@ -7,8 +7,8 @@ import Children.Wishlist;
 public class Children {
 	
 	public static void main(String[] args) throws SQLException {
-		//Children.addToWishlist(17683634, 39927447, 3);
-		Children.viewWishlist(17683634);
+		Children.addToWishlist(17683634, 83927847, 3);
+		//Children.viewWishlist(17683634);
 	}
 
 	public static boolean addToWishlist(int ChildID, int ToyID, int quantity) throws SQLException{

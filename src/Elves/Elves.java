@@ -95,7 +95,7 @@ public class Elves {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
-
+		
 		String overdue = "SELECT TaskID FROM tasks_assigned WHERE EndDate > DueDate";
 
 		ResultSet rs = stmt.executeQuery(overdue);

@@ -33,7 +33,7 @@ public class Tables {
 				"(ChildID int not null, " +
 				" name varchar(30), " +
 				" address varchar(50), " +
-				" naughty char(1), " +
+				" naughty char(2), " +
 				" primary key (ChildID))";
 		
 		String wishlist_created = "create table wishlist_created" +
@@ -49,8 +49,8 @@ public class Tables {
 		
 		String elves = "create table elves" + 
 				"(ElfID int not null, " +
-				" Department varchar(20), " +
-				" Building varchar(20), " +
+				" Department varchar(2), " +
+				" Building varchar(2), " +
 				"primary key (ElfID))";
 		
 		String tools = "create table tools" +
@@ -84,6 +84,7 @@ public class Tables {
 				" StartDate date, " +
 				" EndDate date, " +
 				" DueDate date, " +
+				" DaysWorked int, " + 
 				" primary key (TaskID), " +
 				" foreign key(ElfID) references elves ON DELETE CASCADE)";
 		
@@ -169,11 +170,11 @@ public class Tables {
 		String insertTools9 = "insert into tools values (78547653)";
 		String insertTools10 = "insert into tools values (15326875)";
 		
-		String insertTasksAssigned1 = "insert into tasks_assigned values (73926847, 88391084, '29-JUN-16', '29-JUL-16', '30-JUL-16')";
-		String insertTasksAssigned2 = "insert into tasks_assigned values (11324124, 12204125, '01-MAY-16', '20-JUL-16', '30-MAY-16')";
-		String insertTasksAssigned3 = "insert into tasks_assigned values (31223535, 20014553, '21-MAR-16', '10-APR-16', '12-APR-16')";
-		String insertTasksAssigned4 = "insert into tasks_assigned values (88798631, 31892187, '13-AUG-16', '30-AUG-16', '22-AUG-16')";
-		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16', '28-JAN-16')";
+		String insertTasksAssigned1 = "insert into tasks_assigned values (73926847, 88391084, '29-JUN-16', '29-JUL-16', '30-JUL-16', 7)";
+		String insertTasksAssigned2 = "insert into tasks_assigned values (11324124, 12204125, '01-MAY-16', '20-JUL-16', '30-MAY-16', 4)";
+		String insertTasksAssigned3 = "insert into tasks_assigned values (31223535, 20014553, '21-MAR-16', '10-APR-16', '12-APR-16', 2)";
+		String insertTasksAssigned4 = "insert into tasks_assigned values (88798631, 31892187, '13-AUG-16', '30-AUG-16', '22-AUG-16', 1)";
+		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16', '28-JAN-16', 10)";
 		
 		String insertAssigned1 = "insert into assigned values (37658724, 83927847, 3)";
 		String insertAssigned2 = "insert into assigned values (97482985, 73875937, 1)";
@@ -310,6 +311,7 @@ public class Tables {
 		stmt.executeUpdate(insertAssigned3);
 		stmt.executeUpdate(insertAssigned4);
 		stmt.executeUpdate(insertAssigned5);
+		//stmt.executeUpdate(insertAssigned6);
 		
 		stmt.executeUpdate(insertMatRequired1);
 		stmt.executeUpdate(insertMatRequired2);

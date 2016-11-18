@@ -2,11 +2,11 @@ package Children;
 
 import java.sql.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-
 public class Wishlist {
+	
+	public static void main(String[] args) throws SQLException {
+		System.out.println(Wishlist.getWishlistID(17683634));
+	}
 
 	public static int getWishlistID(int ChildID) throws SQLException{
 		int WishlistID = 0;

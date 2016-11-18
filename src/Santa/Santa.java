@@ -6,10 +6,10 @@ public class Santa {
 	
 	public static void main(String[] args) throws SQLException {
 
-		// Santa.transferElf(88391084, "Engineering");
-		// Santa.assignTask();
-		// Santa.markChildren(17683634, 'F');
-		Santa.viewOverworkedElves(1);
+		 //Santa.transferElf(88391084, 'E');
+		 //Santa.reassignTask(88391084, 11324124);
+		 //Santa.markChildren(83975346, 'A');
+		//Santa.viewOverworkedElves(11);
 		
 	}
 
@@ -18,9 +18,9 @@ public class Santa {
 	// BASIC CASE: Change the department of the specified elf from their current
 	// building to
 	// the specified building
-	public static void transferElf(int ElfID, String Department) throws SQLException {
+	public static void transferElf(int ElfID, int Department) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_q3l8", "a29240116");
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
 
 		String ElfCheck = "SELECT ElfID FROM elves WHERE ElfID = " + ElfID;
@@ -30,7 +30,7 @@ public class Santa {
 
 		if (rs != null) {
 			stmt.executeQuery(transfer);
-			System.out.println("Elf transfereed successfully");
+			System.out.println("Elf transferred successfully!");
 		} else {
 			System.out.println("Elf not transferred");
 		}
@@ -39,39 +39,29 @@ public class Santa {
 
 	// INPUT: An ElfID (int) and a taskID (int)
 	// OUTPUT: "Invalid task", "Invalid elf", "Elf cannot complete task", "Task
-	// successfully assigned"
-	// BASIC CASE: Assigns a task to an elf
-	public static void assignTask(int ElfID, int TaskID) throws SQLException {
+	// successfully reassigned"
+	// BASIC CASE: Assigns a task to a new elf
+	public static void reassignTask(int ElfID, int TaskID) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_q3l8", "a29240116");
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
 
-		String ElfCheck = "SELECT TOP 1 Elves.ElfID FROM Elves WHERE Elves.ElfID = " + ElfID;
-		String TaskCheck = "SELECT TOP 1 Tasks.TaskID FROM Tasks WHERE Tasks.TaskID = " + TaskID;
+		String TaskCheck = "SELECT * FROM tasks_assigned WHERE TaskID = " + TaskID;
+		String ElfCheck = "SELECT * FROM elves where ElfID = " + ElfID;
+		
 
-		ResultSet rs1 = stmt.executeQuery(ElfCheck);
-		ResultSet rs2 = stmt.executeQuery(TaskCheck);
+		ResultSet rs1 = stmt.executeQuery(TaskCheck);
+		ResultSet rs2 = stmt.executeQuery(ElfCheck);
 
 		if (rs1 != null) {
 			if (rs2 != null) {
-				ResultSet rs = stmt.executeQuery(
-						"SELECT StartDate FROM tasks_assigned WHERE tasks_assigned.taskID = " + TaskID );
-				String StartDate = rs.getString("StartDate");
-				rs = stmt.executeQuery(
-						"SELECT EndDate FROM tasks_assigned WHERE tasks_assigned.taskID = " + TaskID );
-				String EndDate = rs.getString("EndDate");
-				rs = stmt.executeQuery(
-						"SELECT DueDate FROM tasks_assigned WHERE tasks_assigned.taskID = " + TaskID);
-				String DueDate = rs.getString("DueDate");
-
-				String assignTask = "INSERT INTO tasks_assigned VALUES (" + ElfID + ", " + TaskID + ", " + ", "
-						+ StartDate + ", " + EndDate + ", " + DueDate;
-				stmt.executeQuery(assignTask);
+				stmt.executeQuery("UPDATE tasks_assigned SET ElfID =" + ElfID + "WHERE TaskID = " + TaskID);	
+				System.out.println("Task reassigned!");
 			} else {
-				System.out.println("Invalid task");
+				System.out.println("Invalid elf");
 			}
 		} else {
-			System.out.println("Invalid elf");
+			System.out.println("Invalid task");
 		}
 		con.close();
 	}
@@ -79,9 +69,9 @@ public class Santa {
 	// INPUT: A ChildID (int) and a NaughtyNice (char)
 	// OUTPUT: "Child is now naughty", "Child is now nice", "Invalid child", "Invalid Naughty/Nice state. Valid states are T and F."
 	// BASIC CASE: Updates whether a child is naughty or nice
-	public static void markChildren(int ChildID, char Naughty) throws SQLException {
+	public static void markChildren(int ChildID, int Naughty) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_q3l8", "a29240116");
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
 
 		String ChildCheck = "SELECT ChildID FROM children WHERE ChildID = " + ChildID;
@@ -93,9 +83,9 @@ public class Santa {
 			if (rs != null) {
 				stmt.executeQuery(behaviour);
 				if (Naughty == 'T') {
-					System.out.println("Child is now naughty");
-				} else {
 					System.out.println("Child is now nice");
+				} else {
+					System.out.println("Child is now naughty");
 				}
 			} else {
 				System.out.println("Invalid child");
@@ -110,12 +100,12 @@ public class Santa {
 	// OUTPUT: A list of overworked elves, or "No overworked elves"
 	// BASIC CASE: The system checks that the input is >= 0, and then prints the ElfIDs of any elves who have >= TaskNum tasks
 
-	public static void viewOverworkedElves(int numTasks) throws SQLException {
+	public static void viewOverworkedElves(int daysWorked) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_q3l8", "a29240116");
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
 
-		String overworked = "SELECT ElfID FROM Elves WHERE Elves.NumTasks >= " +  numTasks;
+		String overworked = "SELECT ElfID FROM tasks_assigned WHERE DaysWorked >= " +  daysWorked;
 
 		ResultSet rs = stmt.executeQuery(overworked);
 
@@ -129,3 +119,4 @@ public class Santa {
 		con.close();
 	}
 }
+
