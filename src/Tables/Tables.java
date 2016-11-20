@@ -147,6 +147,7 @@ public class Tables {
 		String insertToy3 = "insert into toy values (37580867, 10)";
 		String insertToy4 = "insert into toy values (27223576, 8)";
 		String insertToy5 = "insert into toy values (44938597, 5)";
+		String insertToy6 = "insert into toy values (84739483, 4)";
 		
 		String insertElves1 = "insert into elves values (88391084, 'A', 'A')";
 		String insertElves2 = "insert into elves values (12204125, 'B', 'B')";
@@ -277,6 +278,7 @@ public class Tables {
 		stmt.executeUpdate(insertToy3);
 		stmt.executeUpdate(insertToy4);
 		stmt.executeUpdate(insertToy5);
+		stmt.executeUpdate(insertToy6);
 		
 		stmt.executeUpdate(insertElves1);
 		stmt.executeUpdate(insertElves2);
@@ -312,7 +314,6 @@ public class Tables {
 		stmt.executeUpdate(insertAssigned3);
 		stmt.executeUpdate(insertAssigned4);
 		stmt.executeUpdate(insertAssigned5);
-		//stmt.executeUpdate(insertAssigned6);
 		
 		stmt.executeUpdate(insertMatRequired1);
 		stmt.executeUpdate(insertMatRequired2);

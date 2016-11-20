@@ -7,18 +7,33 @@ import Children.Wishlist;
 public class Children {
 	
 	public static void main(String[] args) throws SQLException {
-		Children.addToWishlist(17683634, 83927847, 3);
+		Children.updateWishlist(36749821, 27223576, 3);
 		//Children.viewWishlist(17683634);
 	}
 
-	public static boolean addToWishlist(int ChildID, int ToyID, int quantity) throws SQLException{
+	public static void updateWishlist(int ChildID, int ToyID, int quantity) throws SQLException{
+	
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
-		int WishlistID = Wishlist.getWishlistID(ChildID);
+		int wishlistID = Wishlist.getWishlistID(ChildID);
 		
-		ToyAssigned.insertToy(WishlistID, ToyID, quantity);
+		String ToyCheck = "SELECT ToyID FROM toy WHERE ToyID = " + ToyID;
+		ResultSet toyCheck = stmt.executeQuery(ToyCheck);
 		
-		return true;
+		String update = "INSERT INTO assigned values (" + wishlistID + "," + ToyID + "," + quantity + ")";
 		
+			if (toyCheck.next()) {
+				toyCheck.beforeFirst();
+				stmt.executeQuery(update);
+				System.out.println("Toy added to wishlist!");
+			} else {
+				System.out.println("Toy does not exist.");
+			}
+
+		
+		con.close();
 	}
 	
 	//display all the rows of the child's Wishlist table

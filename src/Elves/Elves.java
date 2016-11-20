@@ -166,7 +166,7 @@ public class Elves {
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
-		String highestStock = "SELECT * FROM (SELECT MaterialID, MAX(InventoryQuantity) AS HIghestInventory from materials "
+		String highestStock = "SELECT * FROM (SELECT MaterialID, MAX(InventoryQuantity) AS HighestInventory from materials "
 				+ "GROUP BY MaterialID ORDER BY MIN(InventoryQuantity) desc) WHERE rownum = 1";
 		
 		ResultSet rs = stmt.executeQuery(highestStock);
