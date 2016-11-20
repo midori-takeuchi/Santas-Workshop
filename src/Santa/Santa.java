@@ -9,8 +9,8 @@ public class Santa {
 		 //Santa.transferElf(88391085, 'E');
 		 //Santa.reassignTask(12204125, 11324124);
 		 //Santa.markChildren(83975346, '0');
-		//Santa.viewOverworkedElves(7, "daysWorked");
-		Santa.printNaughtyNice(0);
+		Santa.viewOverworkedElves(7, "daysWorked");
+		//Santa.printNaughtyNice(0);
 		
 	}
 
@@ -118,6 +118,7 @@ public class Santa {
 				if (daysOrID == "ID") {
 				System.out.println(rs.getString("ElfID"));
 				} else if (daysOrID == "daysWorked") {
+					System.out.println(rs.getString("ElfID"));
 					System.out.println(rs.getString("DaysWorked"));
 				}
 			}

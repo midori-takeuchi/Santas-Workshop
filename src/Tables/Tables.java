@@ -74,6 +74,7 @@ public class Tables {
 		String mat_required = "create table mat_required" +
 				"(ToyID int not null, " +
 				" MaterialID int not null, " +
+				" quantity int, " +
 				" primary key(ToyID, MaterialID), " +
 				" foreign key(ToyID) references toy ON DELETE CASCADE, " +
 				" foreign key(MaterialID) references materials ON DELETE CASCADE)";
@@ -174,7 +175,7 @@ public class Tables {
 		String insertTasksAssigned2 = "insert into tasks_assigned values (11324124, 12204125, '01-MAY-16', '20-JUL-16', '30-MAY-16', 4)";
 		String insertTasksAssigned3 = "insert into tasks_assigned values (31223535, 20014553, '21-MAR-16', '10-APR-16', '12-APR-16', 2)";
 		String insertTasksAssigned4 = "insert into tasks_assigned values (88798631, 31892187, '13-AUG-16', '30-AUG-16', '22-AUG-16', 1)";
-		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16', '28-JAN-16', 10)";
+		String insertTasksAssigned5 = "insert into tasks_assigned values (66261235, NULL, '22-JAN-16', '05-FEB-16', '28-JAN-16', 0)";
 		
 		String insertAssigned1 = "insert into assigned values (37658724, 83927847, 3)";
 		String insertAssigned2 = "insert into assigned values (97482985, 73875937, 1)";
@@ -182,11 +183,11 @@ public class Tables {
 		String insertAssigned4 = "insert into assigned values (28478356, 27223576, 4)";
 		String insertAssigned5 = "insert into assigned values (94736827, 44938597, 1)";
 		
-		String insertMatRequired1 = "insert into mat_required values (83927847, 33536974)";
-		String insertMatRequired2 = "insert into mat_required values (73875937, 22142153)";
-		String insertMatRequired3 = "insert into mat_required values (37580867, 43246980)";
-		String insertMatRequired4 = "insert into mat_required values (27223576, 10742159)";
-		String insertMatRequired5 = "insert into mat_required values (44938597, 50012453)";
+		String insertMatRequired1 = "insert into mat_required values (83927847, 33536974, 8)";
+		String insertMatRequired2 = "insert into mat_required values (73875937, 22142153, 5)";
+		String insertMatRequired3 = "insert into mat_required values (37580867, 43246980, 7)";
+		String insertMatRequired4 = "insert into mat_required values (27223576, 10742159, 10)";
+		String insertMatRequired5 = "insert into mat_required values (44938597, 50012453, 4)";
 		
 		String insertAssociated1 = "insert into associated values (83927847, 73926847)";
 		String insertAssociated2 = "insert into associated values (73875937, 11324124)";
