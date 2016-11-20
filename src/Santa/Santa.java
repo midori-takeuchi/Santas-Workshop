@@ -6,10 +6,10 @@ public class Santa {
 	
 	public static void main(String[] args) throws SQLException {
 
-		 //Santa.transferElf(88391084, 'E');
-		 //Santa.reassignTask(88391084, 11324124);
-		 //Santa.markChildren(83975346, 'A');
-		//Santa.viewOverworkedElves(11);
+		 //Santa.transferElf(88391085, 'E');
+		 Santa.reassignTask(12204125, 11324124);
+		 //Santa.markChildren(83975346, 'F');
+		//Santa.viewOverworkedElves(7);
 		
 	}
 
@@ -21,14 +21,15 @@ public class Santa {
 	public static void transferElf(int ElfID, int Department) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
-		Statement stmt = con.createStatement();
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 		String ElfCheck = "SELECT ElfID FROM elves WHERE ElfID = " + ElfID;
 		String transfer = "UPDATE elves SET Department = " + Department + " WHERE ElfID = " + ElfID;
 		
 		ResultSet rs = stmt.executeQuery(ElfCheck);
 
-		if (rs != null) {
+		if (rs.next()) {
+			rs.beforeFirst();
 			stmt.executeQuery(transfer);
 			System.out.println("Elf transferred successfully!");
 		} else {
@@ -44,10 +45,10 @@ public class Santa {
 	public static void reassignTask(int ElfID, int TaskID) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
-		Statement stmt = con.createStatement();
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-		String TaskCheck = "SELECT * FROM tasks_assigned WHERE TaskID = " + TaskID;
-		String ElfCheck = "SELECT * FROM elves where ElfID = " + ElfID;
+		String TaskCheck = "SELECT TaskID FROM tasks_assigned WHERE TaskID = " + TaskID;
+		String ElfCheck = "SELECT ElfID FROM elves where ElfID = " + ElfID;
 		
 
 		ResultSet rs1 = stmt.executeQuery(TaskCheck);
@@ -72,7 +73,7 @@ public class Santa {
 	public static void markChildren(int ChildID, int Naughty) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
-		Statement stmt = con.createStatement();
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
 		String ChildCheck = "SELECT ChildID FROM children WHERE ChildID = " + ChildID;
 		String behaviour = "UPDATE children SET naughty = " + Naughty + " WHERE ChildID = " + ChildID;
@@ -80,7 +81,8 @@ public class Santa {
 		ResultSet rs = stmt.executeQuery(ChildCheck);
 
 		if (Naughty == 'T' || Naughty == 'F')
-			if (rs != null) {
+			if (rs.next()) {
+				rs.beforeFirst();
 				stmt.executeQuery(behaviour);
 				if (Naughty == 'T') {
 					System.out.println("Child is now nice");
@@ -98,18 +100,19 @@ public class Santa {
 
 	// INPUT: numTasks, a number of tasks (int)
 	// OUTPUT: A list of overworked elves, or "No overworked elves"
-	// BASIC CASE: The system checks that the input is >= 0, and then prints the ElfIDs of any elves who have >= TaskNum tasks
+	// BASIC CASE: The system prints the ElfIDs of any elves who have worked >= daysWorked
 
 	public static void viewOverworkedElves(int daysWorked) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
-		Statement stmt = con.createStatement();
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-		String overworked = "SELECT ElfID FROM tasks_assigned WHERE DaysWorked >= " +  daysWorked;
+		String overworked = "SELECT * FROM tasks_assigned WHERE DaysWorked >= " +  daysWorked;
 
 		ResultSet rs = stmt.executeQuery(overworked);
 
-		if (rs != null) {
+		if (rs.next()) {
+			rs.beforeFirst();
 			while (rs.next()) {
 				System.out.println(rs.getString("ElfID"));
 			}
