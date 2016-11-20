@@ -7,9 +7,10 @@ public class Santa {
 	public static void main(String[] args) throws SQLException {
 
 		 //Santa.transferElf(88391085, 'E');
-		 Santa.reassignTask(12204125, 11324124);
-		 //Santa.markChildren(83975346, 'F');
-		//Santa.viewOverworkedElves(7);
+		 //Santa.reassignTask(12204125, 11324124);
+		 //Santa.markChildren(83975346, '0');
+		//Santa.viewOverworkedElves(7, "daysWorked");
+		Santa.printNaughtyNice(0);
 		
 	}
 
@@ -80,11 +81,11 @@ public class Santa {
 
 		ResultSet rs = stmt.executeQuery(ChildCheck);
 
-		if (Naughty == 'T' || Naughty == 'F')
+		if (Naughty == 1 || Naughty == 0)
 			if (rs.next()) {
 				rs.beforeFirst();
 				stmt.executeQuery(behaviour);
-				if (Naughty == 'T') {
+				if (Naughty == 1) {
 					System.out.println("Child is now nice");
 				} else {
 					System.out.println("Child is now naughty");
@@ -93,7 +94,7 @@ public class Santa {
 				System.out.println("Invalid child");
 			}
 		else {
-			System.out.println("Invalid Naughty/Nice state. Valid states are T and F.");
+			System.out.println("Invalid Naughty/Nice state. Valid states are 0 (nice) and 1 (naughty).");
 		}
 		con.close();
 	}
@@ -102,7 +103,7 @@ public class Santa {
 	// OUTPUT: A list of overworked elves, or "No overworked elves"
 	// BASIC CASE: The system prints the ElfIDs of any elves who have worked >= daysWorked
 
-	public static void viewOverworkedElves(int daysWorked) throws SQLException {
+	public static void viewOverworkedElves(int daysWorked, String daysOrID) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -114,10 +115,40 @@ public class Santa {
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
+				if (daysOrID == "ID") {
 				System.out.println(rs.getString("ElfID"));
+				} else if (daysOrID == "daysWorked") {
+					System.out.println(rs.getString("DaysWorked"));
+				}
 			}
 		} else {
 			System.out.println("No overworked elves");
+		}
+		con.close();
+	}
+	
+	// INPUT: Boolean value for Naughty
+	// OUTPUT: A list of children who are naughty or nice, depending on user input
+	// BASIC CASE: the system print the ChildIDs of children who are naughty or nice
+	public static void printNaughtyNice(int Naughty) throws SQLException {
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		
+		String naughtyNice = "SELECT ChildID FROM children WHERE naughty = " + Naughty;
+		ResultSet rs = stmt.executeQuery(naughtyNice);
+		
+		if (Naughty == 1 || Naughty == 0) {
+			if (rs.next()) {
+				rs.beforeFirst();
+				while (rs.next()) {
+					System.out.println(rs.getString("ChildID"));
+				}
+			} else {
+				System.out.println("No children with this status.");
+			}
+		} else {
+			System.out.println("Invalid Naughty/Nice state. Valid states are 0 (nice) and 1 (naughty).");
 		}
 		con.close();
 	}

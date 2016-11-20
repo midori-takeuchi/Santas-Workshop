@@ -33,7 +33,7 @@ public class Tables {
 				"(ChildID int not null, " +
 				" name varchar(30), " +
 				" address varchar(50), " +
-				" naughty char(2), " +
+				" naughty int, " +
 				" primary key (ChildID))";
 		
 		String wishlist_created = "create table wishlist_created" +
@@ -129,11 +129,11 @@ public class Tables {
 				" foreign key(ToolID) references tools ON DELETE CASCADE, " +
 				" foreign key(ToyID) references toy ON DELETE CASCADE )";
 		
-		String insertChildren1 = "insert into children values (17683634, 'Susan Martin', '177 Green Street', 'T')";
-		String insertChildren2 = "insert into children values (36749821, 'Charles Harris', '422 Marigold Court', 'F')";
-		String insertChildren3 = "insert into children values (76387561, 'Linda Davis', '8734 Wesbrook Mall', 'F')";
-		String insertChildren4 = "insert into children values (83975346, 'Jennifer Thomas', '343 Agronomy Road', 'T')";
-		String insertChildren5 = "insert into children values (53957612, 'David Anderson', '6775 Main Mall', 'F')";
+		String insertChildren1 = "insert into children values (17683634, 'Susan Martin', '177 Green Street', 0)";
+		String insertChildren2 = "insert into children values (36749821, 'Charles Harris', '422 Marigold Court', 1)";
+		String insertChildren3 = "insert into children values (76387561, 'Linda Davis', '8734 Wesbrook Mall', 1)";
+		String insertChildren4 = "insert into children values (83975346, 'Jennifer Thomas', '343 Agronomy Road', 0)";
+		String insertChildren5 = "insert into children values (53957612, 'David Anderson', '6775 Main Mall', 1)";
 		
 		String insertWishlist1 = "insert into wishlist_created values (37658724, 17683634)";
 		String insertWishlist2 = "insert into wishlist_created values (97482985, 36749821)";
