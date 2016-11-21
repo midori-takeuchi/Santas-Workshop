@@ -6,14 +6,41 @@ public class Santa {
 	
 	public static void main(String[] args) throws SQLException {
 
-		 //Santa.transferElf(88391085, 'E');
-		 //Santa.reassignTask(12204125, 11324124);
-		 //Santa.markChildren(83975346, '0');
+		Santa.division();
+		Santa.transferElf(88391085, 'E');
+		Santa.reassignTask(12204125, 11324124);
+		Santa.markChildren(83975346, 0);
 		Santa.viewOverworkedElves(7, "daysWorked");
-		//Santa.printNaughtyNice(0);
-		
+		Santa.printNaughtyNice(0);	
 	}
 
+	public static void division() throws SQLException {
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		
+		String division = "Select DISTINCT W.WishListID "
+				+ "FROM wishlist_created W "
+				+ "WHERE NOT EXISTS ( SELECT T.ToyID "
+				+ "FROM toy T "
+				+ "WHERE NOT EXISTS ( SELECT A.ToyID "
+				+ "FROM assigned A "
+				+ "WHERE A.ToyID = T.ToyID "
+				+ "AND A.WishListID = W.WishListID))";
+		
+		ResultSet rs = stmt.executeQuery(division);
+		
+		if (rs.next()) {
+			rs.beforeFirst();
+			while (rs.next()) {
+				System.out.println(rs.getString("WishListID"));
+			}
+		} else {
+			System.out.println("No wishlist asks for all toys");
+		}
+		con.close();
+	}
+	
 	// INPUT: An ElfID (int) and a Building (string)
 	// OUTPUT: "Elf not transferred" or "Elf transferred successfully"
 	// BASIC CASE: Change the department of the specified elf from their current
@@ -154,4 +181,3 @@ public class Santa {
 		con.close();
 	}
 }
-
