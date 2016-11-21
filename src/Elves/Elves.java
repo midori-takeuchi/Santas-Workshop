@@ -22,11 +22,12 @@ public class Elves {
 	// tasks found"
 	// BASIC CASE: Print the set of tasks which is not associated with any elf
 	// Print tasks from TasksAssignedTable where ElfId == NULL
-	public static void unassignedTask() throws SQLException {
+	public static String unassignedTask() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
+		String res="";
 		String unAssigned = "SELECT TaskID FROM tasks_assigned WHERE ElfID IS NULL";
 
 		ResultSet rs = stmt.executeQuery(unAssigned);
@@ -34,13 +35,15 @@ public class Elves {
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("TaskID"));
+				res+=rs.getString("TaskID") + "\n";
 			}
 		} else {
-			System.out.println("No unassigned tasks found");
+			res+="No unassigned tasks found";
 		}
 
 		con.close();
+		String column="Task ID \n";
+		return  column +res;
 
 	}
 
@@ -48,7 +51,7 @@ public class Elves {
 	// BASIC CASE: The system checks for materials that have less than 20% of
 	// InventoryLimit in inventory and returns a list of them
 	// Compare value (InventoryLimit * 0.2) to ____? -> quantity in stockpile?
-	public static void lowMaterials() throws SQLException {
+	public static String lowMaterials() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -56,17 +59,19 @@ public class Elves {
 		String lowInventory = "SELECT MaterialID FROM materials WHERE InventoryQuantity < (InventoryLimit * 0.2)";
 
 		ResultSet rs = stmt.executeQuery(lowInventory);
-
+		String res="";
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("MaterialID"));
+				res+=rs.getString("MaterialID")+"\n";
 			}
 		} else {
-			System.out.println("Sufficient stock");
+			res+="Sufficient stock";
 		}
 
 		con.close();
+		String column="Material ID \n";
+		return  column +res;
 
 	}
 
@@ -74,30 +79,32 @@ public class Elves {
 	// inventory or "Not near full capacity"
 	// BASIC CASE: System checks for materials that have over 90% of
 	// InventoryLimit in inventory
-	public static void fullCapacity() throws SQLException {
+	public static String fullCapacity() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement();
 
 		String fullCapacity = "SELECT MaterialID FROM materials WHERE InventoryQuantity > (InventoryLimit * 0.9)";
-
+		String res="";
 		ResultSet rs = stmt.executeQuery(fullCapacity);
 
 		if (rs != null) {
 			while (rs.next()) {
-				System.out.println(rs.getString("MaterialID"));
+				res+=rs.getString("MaterialID") +"\n";
 			}
 		} else {
-			System.out.println("Not near full capacity");
+			res+="Not near full capacity";
 		}
 
 		con.close();
+		String column="Material ID \n";
+		return  column +res;
 	}
 
 	// OUTPUT: List of TaskID that is due soon or overdue/"No tasks due soon or
 	// overdue"
 	// BASIC CASE: System checks if EndDate is later than DueDate
-	public static void overdueTasks() throws SQLException {
+	public static String overdueTasks() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -105,41 +112,46 @@ public class Elves {
 		String overdue = "SELECT TaskID FROM tasks_assigned WHERE EndDate > DueDate";
 
 		ResultSet rs = stmt.executeQuery(overdue);
-
+		String res="";
+		
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("TaskID"));
+				res+=rs.getString("TaskID") +"\n";
 			}
 		} else {
-			System.out.println("No tasks due soon or overdue");
+			res+="No tasks due soon or overdue";
 		}
 		con.close();
+		String column="Task ID \n";
+		return  column +res;
 	}
 
 	// OUTPUT: "You cannot complete this task", "Task completed"
 	// BASIC CASE: Check that the elf has been assigned the task in question.
 
-	public static void taskComplete(int elfId, int taskId) throws SQLException {
+	public static String taskComplete(int elfId, int taskId) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		
 		String task = "SELECT * FROM tasks_assigned WHERE ElfID = " + elfId + "AND TaskID = " + taskId;
 		ResultSet rs = stmt.executeQuery(task);
+		String res="";
 		
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println("Task completed");
+				res+="Task completed";
 			}
 		} else {
-			System.out.println("You cannot complete this task.");
+			res+="You cannot complete this task.";
 		}
 		con.close();
+		return res;
 	}
 	
-	public static void matForToy(int toyID) throws SQLException {
+	public static String matForToy(int toyID) throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -148,20 +160,22 @@ public class Elves {
 				+ "INNER JOIN associated ON mat_required.ToyID = associated.ToyID WHERE mat_required.ToyID = " + toyID;
 		
 		ResultSet rs = stmt.executeQuery(materials);
+		String res="";
 		
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("MaterialID"));
-				System.out.println(rs.getString("quantity"));
+				res+=(rs.getString("MaterialID"))+"         ";
+				res+=(rs.getString("quantity"));
 			}
 		} else {
-			System.out.println("Invalid ToyID");
+			res+=("Invalid ToyID");
 		}
-		con.close();
+		String column="Material ID      Quantity \n";
+		return  column +res;
 	}
 	
-	public static void highestStockMaterial() throws SQLException {
+	public static String highestStockMaterial() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -170,20 +184,23 @@ public class Elves {
 				+ "GROUP BY MaterialID ORDER BY MIN(InventoryQuantity) desc) WHERE rownum = 1";
 		
 		ResultSet rs = stmt.executeQuery(highestStock);
+		String res="";
 		
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("MaterialID"));
-				System.out.println(rs.getString("HighestInventory"));
+				res+=rs.getString("MaterialID") + "           ";
+				res+=rs.getString("HighestInventory");
 			}
 		} else {
-			System.out.println("No stock.");
+			res+="No stock.";
 		}
 		con.close();
+		String column="Material ID      Inventory \n";
+		return  column +res;
 	}
 	
-	public static void lowestStockMaterial() throws SQLException {
+	public static String lowestStockMaterial() throws SQLException {
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -192,16 +209,19 @@ public class Elves {
 				+ "GROUP BY MaterialID ORDER BY MIN(InventoryQuantity) asc) WHERE rownum = 1";
 		
 		ResultSet rs = stmt.executeQuery(lowestStock);
+		String res="";
 		
 		if (rs.next()) {
 			rs.beforeFirst();
 			while (rs.next()) {
-				System.out.println(rs.getString("MaterialID"));
-				System.out.println(rs.getString("LowestInventory"));
+				res+=rs.getString("MaterialID") + "           ";
+				res+=rs.getString("LowestInventory");
 			}
 		} else {
-			System.out.println("No stock.");
+			res+=("No stock.");
 		}
 		con.close();
+		String column="Material ID        Inventory \n";
+		return  column +res;
 	}
 }
