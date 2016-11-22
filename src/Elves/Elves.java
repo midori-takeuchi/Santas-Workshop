@@ -8,14 +8,14 @@ public class Elves {
 
 	public static void main(String[] args) throws SQLException {
 
-		Elves.unassignedTask();
-		Elves.lowMaterials();
-		Elves.fullCapacity();
-		Elves.overdueTasks();
-		Elves.taskComplete(88391084, 73926847);
-		Elves.matForToy(83927847);
+		 //Elves.unassignedTask();
+		 //Elves.lowMaterials();
+		//Elves.fullCapacity();
+		// Elves.overdueTasks();
+		//Elves.taskComplete(88391084, 73926847);
+		//Elves.matForToy(83927847);
 		Elves.highestStockMaterial();
-		Elves.lowestStockMaterial();
+		//Elves.lowestStockMaterial();
 	}
 
 	// OUTPUT: List of TaskID that have not been assigned or "No unassigned

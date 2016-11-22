@@ -182,12 +182,7 @@ public class Tables {
 		String insertAssigned2 = "insert into assigned values (97482985, 73875937, 1)";
 		String insertAssigned3 = "insert into assigned values (14673876, 37580867, 2)";
 		String insertAssigned4 = "insert into assigned values (28478356, 27223576, 4)";
-		String insertAssigned5 = "insert into assigned values (94736827, 83927847, 1)";
-		String insertAssigned6 = "insert into assigned values (94736827, 73875937, 1)";
-		String insertAssigned7 = "insert into assigned values (94736827, 37580867, 1)";
-		String insertAssigned8 = "insert into assigned values (94736827, 27223576, 1)";
-		String insertAssigned9 = "insert into assigned values (94736827, 44938597, 1)";
-		String insertAssigned10 = "insert into assigned values (94736827, 84739483, 1)";
+		String insertAssigned5 = "insert into assigned values (94736827, 44938597, 1)";
 		
 		String insertMatRequired1 = "insert into mat_required values (83927847, 33536974, 8)";
 		String insertMatRequired2 = "insert into mat_required values (73875937, 22142153, 5)";
@@ -319,11 +314,6 @@ public class Tables {
 		stmt.executeUpdate(insertAssigned3);
 		stmt.executeUpdate(insertAssigned4);
 		stmt.executeUpdate(insertAssigned5);
-		stmt.executeUpdate(insertAssigned6);
-		stmt.executeUpdate(insertAssigned7);
-		stmt.executeUpdate(insertAssigned8);
-		stmt.executeUpdate(insertAssigned9);
-		stmt.executeUpdate(insertAssigned10);
 		
 		stmt.executeUpdate(insertMatRequired1);
 		stmt.executeUpdate(insertMatRequired2);
