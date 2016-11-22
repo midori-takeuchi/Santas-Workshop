@@ -11,10 +11,8 @@ public class Children {
 		//Children.viewWishlist(17683634);
 	}
 
-	public static String updateWishlist(int ChildID, int ToyID, int quantity) throws SQLException{
-		String res="";
-		
-		try{
+	public static void updateWishlist(int ChildID, int ToyID, int quantity) throws SQLException{
+	
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -29,30 +27,23 @@ public class Children {
 			if (toyCheck.next()) {
 				toyCheck.beforeFirst();
 				stmt.executeQuery(update);
-				res+="Toy added to wishlist!";
+				System.out.println("Toy added to wishlist!");
 			} else {
-				res+="Toy does not exist.";
+				System.out.println("Toy does not exist.");
 			}
 
 		
 		con.close();
-		} catch (SQLException ex){
-			res+="Toy already added";
-			System.out.println(ex);
-		}
-		return res;
 	}
 	
 	//display all the rows of the child's Wishlist table
-	public static String viewWishlist(int ChildID) throws SQLException{
+	public static void viewWishlist(int ChildID) throws SQLException{
 		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 	    Connection con = DriverManager.getConnection(
 	    		"jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
 	    int ToyID;
 	    int qty;
 	    int WishListID = Wishlist.getWishlistID(ChildID);
-	    String res="";
-	    String columns="";
 
 		try{
 		  Statement stmt = con.createStatement();
@@ -71,9 +62,10 @@ public class Children {
 		  {
 		      // get column name and print it
 
-			  columns+= rsmd.getColumnName(i+1)+ "              ";  
+		      System.out.printf("%-15s", rsmd.getColumnName(i+1));    
 		  }
 
+		  System.out.println(" ");
 
 		  while(rs.next())
 		  {
@@ -83,12 +75,16 @@ public class Children {
 		      // simplified output formatting; truncation may occur
 
 		      WishListID = rs.getInt("WishListID");
+		      System.out.printf("%-10.10s", WishListID);
+
 		      ToyID = rs.getInt("ToyID");
+		      System.out.printf("%-20.20s", ToyID);
+
 		      qty = rs.getInt("Quantity");
-		   
-		      res += (""+ WishListID+ "               ") + (""+ ToyID+"               ") + (""+ qty+ "               ") + "\n";
- 
-		  	}
+		      System.out.printf("%-15.15s", qty);
+
+		     
+		  }
 	 
 		  // close the statement; 
 		  // the ResultSet will also be closed
@@ -98,8 +94,6 @@ public class Children {
 		{
 		    System.out.println("Message: " + ex.getMessage());
 		}
-		
-		return columns+ "\n" + res;
 	}
 	
 	
