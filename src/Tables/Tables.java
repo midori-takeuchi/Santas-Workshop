@@ -22,6 +22,7 @@ public class Tables {
 		String dropTasksAssigned = "DROP TABLE tasks_assigned CASCADE CONSTRAINT ";
 		String dropMaterials = "DROP TABLE materials CASCADE CONSTRAINT ";
 		String dropStockpile = "DROP TABLE stockpile ";
+		String dropDeptBuilding = "DROP TABLE deptBuilding CASCADE CONSTRAINT ";
 		String dropElves = "DROP TABLE elves CASCADE CONSTRAINT ";
 		String dropProficientWith = "DROP TABLE proficient_with ";
 		String dropTools = "DROP TABLE tools CASCADE CONSTRAINT ";
@@ -47,11 +48,16 @@ public class Tables {
 				" NumberBuild int, " +
 				" primary key (ToyID))";
 		
+		String deptBuilding = "create table deptBuilding"
+				+ "(Department varchar(2) not null, "
+				+ "Building varchar(2), "
+				+ "primary key (Department))";	
+		
 		String elves = "create table elves" + 
 				"(ElfID int not null, " +
 				" Department varchar(2), " +
-				" Building varchar(2), " +
-				"primary key (ElfID))";
+				"primary key (ElfID), " +
+				"foreign key (Department) references deptBuilding ON DELETE CASCADE)";		
 		
 		String tools = "create table tools" +
 				"(ToolID int not null, " +
@@ -149,11 +155,17 @@ public class Tables {
 		String insertToy5 = "insert into toy values (44938597, 5)";
 		String insertToy6 = "insert into toy values (84739483, 4)";
 		
-		String insertElves1 = "insert into elves values (88391084, 'A', 'A')";
-		String insertElves2 = "insert into elves values (12204125, 'B', 'B')";
-		String insertElves3 = "insert into elves values (20014553, 'C', 'C')";
-		String insertElves4 = "insert into elves values (31892187, 'D', 'D')";
-		String insertElves5 = "insert into elves values (60215827, 'E', 'E')";
+		String insertDeptBuilding1 = "insert into deptBuilding values ('A', 'A')";
+		String insertDeptBuilding2 = "insert into deptBuilding values ('B', 'B')";
+		String insertDeptBuilding3 = "insert into deptBuilding values ('C', 'C')";
+		String insertDeptBuilding4 = "insert into deptBuilding values ('D', 'D')";
+		String insertDeptBuilding5 = "insert into deptBuilding values ('E', 'E')";
+		
+		String insertElves1 = "insert into elves values (88391084, 'A')";
+		String insertElves2 = "insert into elves values (12204125, 'B')";
+		String insertElves3 = "insert into elves values (20014553, 'C')";
+		String insertElves4 = "insert into elves values (31892187, 'D')";
+		String insertElves5 = "insert into elves values (60215827, 'E')";
 		
 		String insertMaterials1 = "insert into materials values (33536974, 1, 10)";
 		String insertMaterials2 = "insert into materials values (22142153, 2, 15)";
@@ -182,7 +194,13 @@ public class Tables {
 		String insertAssigned2 = "insert into assigned values (97482985, 73875937, 1)";
 		String insertAssigned3 = "insert into assigned values (14673876, 37580867, 2)";
 		String insertAssigned4 = "insert into assigned values (28478356, 27223576, 4)";
-		String insertAssigned5 = "insert into assigned values (94736827, 44938597, 1)";
+		String insertAssigned5 = "insert into assigned values (94736827, 83927847, 1)";
+		String insertAssigned6 = "insert into assigned values (94736827, 73875937, 1)";
+		String insertAssigned7 = "insert into assigned values (94736827, 37580867, 1)";
+		String insertAssigned8 = "insert into assigned values (94736827, 27223576, 1)";
+		String insertAssigned9 = "insert into assigned values (94736827, 44938597, 1)";
+		String insertAssigned10 = "insert into assigned values (94736827, 84739483, 1)";
+
 		
 		String insertMatRequired1 = "insert into mat_required values (83927847, 33536974, 8)";
 		String insertMatRequired2 = "insert into mat_required values (73875937, 22142153, 5)";
@@ -230,6 +248,7 @@ public class Tables {
 		stmt.executeUpdate(dropChildren); 
 		stmt.executeUpdate(dropWishlistCreated);
 		stmt.executeUpdate(dropToy);
+		stmt.executeUpdate(dropDeptBuilding);
 		stmt.executeUpdate(dropElves);
 		stmt.executeUpdate(dropMaterials);
 		stmt.executeUpdate(dropTools);
@@ -247,6 +266,7 @@ public class Tables {
 		stmt.executeUpdate(children);
 		stmt.executeUpdate(wishlist_created);
 		stmt.executeUpdate(toy);
+		stmt.executeUpdate(deptBuilding);
 		stmt.executeUpdate(elves);
 		stmt.executeUpdate(materials);
 		stmt.executeUpdate(tools);
@@ -279,6 +299,12 @@ public class Tables {
 		stmt.executeUpdate(insertToy4);
 		stmt.executeUpdate(insertToy5);
 		stmt.executeUpdate(insertToy6);
+		
+		stmt.executeUpdate(insertDeptBuilding1);
+		stmt.executeUpdate(insertDeptBuilding2);
+		stmt.executeUpdate(insertDeptBuilding3);
+		stmt.executeUpdate(insertDeptBuilding4);
+		stmt.executeUpdate(insertDeptBuilding5);
 		
 		stmt.executeUpdate(insertElves1);
 		stmt.executeUpdate(insertElves2);
@@ -314,6 +340,12 @@ public class Tables {
 		stmt.executeUpdate(insertAssigned3);
 		stmt.executeUpdate(insertAssigned4);
 		stmt.executeUpdate(insertAssigned5);
+		stmt.executeUpdate(insertAssigned6);
+		stmt.executeUpdate(insertAssigned7);
+		stmt.executeUpdate(insertAssigned8);
+		stmt.executeUpdate(insertAssigned9);
+		stmt.executeUpdate(insertAssigned10);
+
 		
 		stmt.executeUpdate(insertMatRequired1);
 		stmt.executeUpdate(insertMatRequired2);

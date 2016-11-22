@@ -6,13 +6,17 @@ public class Santa {
 	
 	public static void main(String[] args) throws SQLException {
 
-		 //Santa.transferElf(88391085, 'E');
-		 //Santa.reassignTask(12204125, 11324124);
-		 //Santa.markChildren(83975346, '0');
-		Santa.viewOverworkedElves(7, "daysWorked");
-		//Santa.printNaughtyNice(0);
-		
+//		Santa.division();
+//		Santa.transferElf(88391085, 'E');
+//		Santa.reassignTask(12204125, 11324124);
+//		Santa.markChildren(83975346, 0);
+//		Santa.viewOverworkedElves(7, "daysWorked");
+//		Santa.printNaughtyNice(0);	
+//		Santa.deleteChild(36749821);
+		Santa.deleteWishlist(37658724);
 	}
+
+
 
 	// INPUT: An ElfID (int) and a Building (string)
 	// OUTPUT: "Elf not transferred" or "Elf transferred successfully"
@@ -153,5 +157,46 @@ public class Santa {
 		}
 		con.close();
 	}
+	
+	public static void deleteChild(int ChildID) throws SQLException {
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		
+		String childCheck = "SELECT * FROM children WHERE ChildID = " + ChildID;
+		ResultSet rs = stmt.executeQuery(childCheck);
+		
+		String delChild = "DELETE FROM children WHERE ChildID = " + ChildID;
+		
+		if (rs.next()) {
+			stmt.execute(delChild);
+			System.out.println("Child deleted");
+		} else {
+			System.out.println("Child does not exist!");
+		}
+		
+		con.close();
+	}
+	
+	public static void deleteWishlist(int WishlistID) throws SQLException {
+		DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1522:ug", "ora_v3w8", "a36577120");
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+		
+		String wishlistCheck = "SELECT * FROM wishlist_created WHERE WishlistID = " + WishlistID;
+		ResultSet rs = stmt.executeQuery(wishlistCheck);
+		
+		String delWishlist = "DELETE FROM wishlist_created WHERE WishlistID = " + WishlistID;
+		
+		if (rs.next()) {
+			stmt.executeQuery(delWishlist);
+			System.out.println("Wishlist deleted.");
+		} else {
+			System.out.println("Wishlist does not exist!");
+		}
+	}
+	
 }
+
+
 
